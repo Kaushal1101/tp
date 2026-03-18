@@ -9,6 +9,7 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.Alias;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -120,5 +121,20 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    /**
+     * Parses a {@code String alias} into an {@code Alias}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code alias} is invalid.
+     */
+    public static Alias parseAlias(String alias) throws ParseException {
+        requireNonNull(alias);
+        String trimmedAlias = alias.trim();
+        if (!Alias.isValidAlias(trimmedAlias)) {
+            throw new ParseException(Alias.MESSAGE_CONSTRAINTS);
+        }
+        return new Alias(trimmedAlias);
     }
 }
