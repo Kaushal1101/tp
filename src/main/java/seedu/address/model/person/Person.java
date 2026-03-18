@@ -2,11 +2,12 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
 
@@ -26,12 +27,21 @@ public class Person {
     // Data fields
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
+    private final List<Encounter> encounters = new ArrayList<>();
 
     /**
-     * Every field must be present and not null.
+     * Full constructor — every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Stage stage, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, stage, tags);
+    public Person(
+        Name name,
+        Phone phone,
+        Email email,
+        Address address,
+        Stage stage,
+        Set<Tag> tags,
+        List<Encounter> encounters
+    ) {
+        requireAllNonNull(name, phone, email, address, stage, tags, encounters);
         this.name = name;
         this.alias = new Alias(name.toString());
         this.phone = phone;
@@ -39,6 +49,22 @@ public class Person {
         this.address = address;
         this.stage = stage;
         this.tags.addAll(tags);
+        this.encounters.addAll(encounters);
+    }
+
+    /**
+     * Convenience constructor with no encounters (defaults to empty list).
+     * Every field must be present and not null.
+     */
+    public Person(
+        Name name,
+        Phone phone,
+        Email email,
+        Address address,
+        Stage stage,
+        Set<Tag> tags
+    ) {
+        this(name, phone, email, address, stage, tags, Collections.emptyList());
     }
 
     public Name getName() {
@@ -74,6 +100,14 @@ public class Person {
     }
 
     /**
+     * Returns an immutable encounter list, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public List<Encounter> getEncounters() {
+        return Collections.unmodifiableList(encounters);
+    }
+
+    /**
      * Returns true if both persons have the same name.
      * This defines a weaker notion of equality between two persons.
      */
@@ -82,8 +116,7 @@ public class Person {
             return true;
         }
 
-        return otherPerson != null
-                && otherPerson.getName().equals(getName());
+        return otherPerson != null && otherPerson.getName().equals(getName());
     }
 
     /**
@@ -102,30 +135,41 @@ public class Person {
         }
 
         Person otherPerson = (Person) other;
-        return name.equals(otherPerson.name)
-                && phone.equals(otherPerson.phone)
-                && email.equals(otherPerson.email)
-                && address.equals(otherPerson.address)
-                && stage.equals(otherPerson.stage)
-                && tags.equals(otherPerson.tags);
+        return (
+            name.equals(otherPerson.name) &&
+            phone.equals(otherPerson.phone) &&
+            email.equals(otherPerson.email) &&
+            address.equals(otherPerson.address) &&
+            stage.equals(otherPerson.stage) &&
+            tags.equals(otherPerson.tags) &&
+            encounters.equals(otherPerson.encounters)
+        );
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, stage, tags);
+        return Objects.hash(
+            name,
+            phone,
+            email,
+            address,
+            stage,
+            tags,
+            encounters
+        );
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("name", name)
-                .add("phone", phone)
-                .add("email", email)
-                .add("address", address)
-                .add("stage", stage)
-                .add("tags", tags)
-                .toString();
+            .add("name", name)
+            .add("phone", phone)
+            .add("email", email)
+            .add("address", address)
+            .add("stage", stage)
+            .add("tags", tags)
+            .add("encounters", encounters)
+            .toString();
     }
-
 }
