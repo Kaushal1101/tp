@@ -30,8 +30,8 @@ public class PersonCard extends UiPart<Region> {
     private HBox cardPane;
     @FXML
     private Label name;
-    //@FXML
-    //private Label alias;
+    @FXML
+    private Label alias;
     @FXML
     private Label id;
     @FXML
@@ -42,6 +42,8 @@ public class PersonCard extends UiPart<Region> {
     private Label email;
     @FXML
     private FlowPane tags;
+    @FXML
+    private Label stage;
 
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
@@ -50,7 +52,8 @@ public class PersonCard extends UiPart<Region> {
         super(FXML);
         this.person = person;
         id.setText(displayedIndex + ". ");
-        //alias.setText(person.getAlias().aliasString);
+        alias.setText(person.getAlias().aliasString);
+        stage.setText(person.getStage().toString());
         name.setText(person.getName().fullName);
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
