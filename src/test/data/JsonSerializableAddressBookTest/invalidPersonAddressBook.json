@@ -1,6 +1,7 @@
 {
   "persons": [ {
     "name": "Ha!ns Muster",
+    "address": "4th street",
     "stage": "surveillance"
   } ]
 }
