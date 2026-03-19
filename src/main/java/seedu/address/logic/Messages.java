@@ -41,6 +41,8 @@ public class Messages {
                 .append(person.getAddress())
                 .append("; Aliases: ")
                 .append(String.join(", ", person.getAliases().stream().map(a -> a.value).toList()))
+                .append("; Notes: ")
+                .append(person.getNotes())
                 .append("; Stage: ")
                 .append(person.getStage())
                 .append("; Tags: ");

@@ -3,6 +3,7 @@ package seedu.address.testutil;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ALIAS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STAGE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
@@ -38,6 +39,9 @@ public class PersonUtil {
                     .append(String.join(", ", person.getAliases().stream().map(a -> a.value).toList()))
                     .append(" ");
         }
+        if (!person.getNotes().value.isEmpty()) {
+            sb.append(PREFIX_NOTES).append(person.getNotes().value).append(" ");
+        }
         person.getTags().stream().forEach(
             s -> sb.append(PREFIX_TAG + s.tagName + " ")
         );
@@ -54,6 +58,7 @@ public class PersonUtil {
         descriptor.getAliases().ifPresent(aliases -> sb.append(PREFIX_ALIAS)
                 .append(String.join(", ", aliases.stream().map(a -> a.value).toList()))
                 .append(" "));
+        descriptor.getNotes().ifPresent(notes -> sb.append(PREFIX_NOTES).append(notes.value).append(" "));
         if (descriptor.getTags().isPresent()) {
             Set<Tag> tags = descriptor.getTags().get();
             if (tags.isEmpty()) {

@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ALIAS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
@@ -23,6 +24,7 @@ import seedu.address.model.Model;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Alias;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Notes;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
@@ -40,6 +42,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_ALIAS + "ALIAS(,ALIAS...)] "
+            + "[" + PREFIX_NOTES + "NOTES] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_ALIAS + "Ah Boy, Johnny T";
@@ -94,10 +97,12 @@ public class EditCommand extends Command {
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         List<Alias> updatedAliases = editPersonDescriptor.getAliases().orElse(personToEdit.getAliases());
+        Notes updatedNotes = editPersonDescriptor.getNotes().orElse(personToEdit.getNotes());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
         // Stage is not currently editable; preserve the existing stage.
-        return new Person(updatedName, updatedAddress, personToEdit.getStage(), updatedAliases, updatedTags);
+        return new Person(updatedName, updatedAddress, personToEdit.getStage(), updatedAliases, updatedNotes,
+                updatedTags);
     }
 
     @Override
@@ -132,6 +137,7 @@ public class EditCommand extends Command {
         private Name name;
         private Address address;
         private List<Alias> aliases;
+        private Notes notes;
         private Set<Tag> tags;
 
         public EditPersonDescriptor() {}
@@ -144,6 +150,7 @@ public class EditCommand extends Command {
             setName(toCopy.name);
             setAddress(toCopy.address);
             setAliases(toCopy.aliases);
+            setNotes(toCopy.notes);
             setTags(toCopy.tags);
         }
 
@@ -151,7 +158,7 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, address, aliases, tags);
+            return CollectionUtil.isAnyNonNull(name, address, aliases, notes, tags);
         }
 
         public void setName(Name name) {
@@ -176,6 +183,14 @@ public class EditCommand extends Command {
 
         public Optional<List<Alias>> getAliases() {
             return Optional.ofNullable(aliases);
+        }
+
+        public void setNotes(Notes notes) {
+            this.notes = notes;
+        }
+
+        public Optional<Notes> getNotes() {
+            return Optional.ofNullable(notes);
         }
 
         /**
@@ -210,6 +225,7 @@ public class EditCommand extends Command {
             return Objects.equals(name, otherEditPersonDescriptor.name)
                     && Objects.equals(address, otherEditPersonDescriptor.address)
                     && Objects.equals(aliases, otherEditPersonDescriptor.aliases)
+                    && Objects.equals(notes, otherEditPersonDescriptor.notes)
                     && Objects.equals(tags, otherEditPersonDescriptor.tags);
         }
 
@@ -219,6 +235,7 @@ public class EditCommand extends Command {
                     .add("name", name)
                     .add("address", address)
                     .add("aliases", aliases)
+                    .add("notes", notes)
                     .add("tags", tags)
                     .toString();
         }

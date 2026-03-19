@@ -14,6 +14,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Alias;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Notes;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -95,6 +96,19 @@ public class ParserUtil {
         } catch (IllegalArgumentException ex) {
             throw new ParseException(Alias.MESSAGE_CONSTRAINTS);
         }
+    }
+
+    /**
+     * Parses a {@code String notes} into {@code Notes}.
+     *
+     * @throws ParseException if the given {@code notes} is invalid.
+     */
+    public static Notes parseNotes(String notes) throws ParseException {
+        requireNonNull(notes);
+        if (!Notes.isValidNotes(notes)) {
+            throw new ParseException(Notes.MESSAGE_CONSTRAINTS);
+        }
+        return new Notes(notes);
     }
 
     /**

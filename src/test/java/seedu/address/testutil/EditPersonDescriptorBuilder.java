@@ -33,6 +33,7 @@ public class EditPersonDescriptorBuilder {
         descriptor.setName(person.getName());
         descriptor.setAddress(person.getAddress());
         descriptor.setAliases(person.getAliases());
+        descriptor.setNotes(person.getNotes());
         descriptor.setTags(person.getTags());
     }
 

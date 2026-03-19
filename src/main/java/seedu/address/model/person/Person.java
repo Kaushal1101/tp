@@ -24,17 +24,19 @@ public class Person {
     // Data fields
     private final Address address;
     private final List<Alias> aliases;
+    private final Notes notes;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Address address, Stage stage, List<Alias> aliases, Set<Tag> tags) {
-        requireAllNonNull(name, address, stage, aliases, tags);
+    public Person(Name name, Address address, Stage stage, List<Alias> aliases, Notes notes, Set<Tag> tags) {
+        requireAllNonNull(name, address, stage, aliases, notes, tags);
         this.name = name;
         this.address = address;
         this.stage = stage;
         this.aliases = List.copyOf(aliases);
+        this.notes = notes;
         this.tags.addAll(tags);
     }
 
@@ -48,6 +50,10 @@ public class Person {
 
     public List<Alias> getAliases() {
         return Collections.unmodifiableList(aliases);
+    }
+
+    public Notes getNotes() {
+        return notes;
     }
 
     public Stage getStage() {
@@ -95,13 +101,14 @@ public class Person {
                 && address.equals(otherPerson.address)
                 && stage.equals(otherPerson.stage)
                 && aliases.equals(otherPerson.aliases)
+                && notes.equals(otherPerson.notes)
                 && tags.equals(otherPerson.tags);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, address, stage, aliases, tags);
+        return Objects.hash(name, address, stage, aliases, notes, tags);
     }
 
     @Override
@@ -110,6 +117,7 @@ public class Person {
                 .add("name", name)
                 .add("address", address)
                 .add("aliases", aliases)
+                .add("notes", notes)
                 .add("stage", stage)
                 .add("tags", tags)
                 .toString();
