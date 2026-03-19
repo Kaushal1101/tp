@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fitToWidth="true" styleClass="pane-with-border"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+  <VBox id="viewPanel" fx:id="viewPanel" spacing="8">
+    <padding>
+      <Insets top="15" right="15" bottom="15" left="15" />
+    </padding>
+
+    <Label fx:id="placeholder" text="Select a contact (view INDEX) to see profile."
+           styleClass="label-bright" wrapText="true" />
+
+    <VBox fx:id="profileBox" spacing="8" visible="false" managed="false">
+      <Label fx:id="nameLabel" styleClass="view-name" wrapText="true" />
+      <HBox spacing="4" alignment="CENTER_LEFT">
+        <Label fx:id="stageLabel" styleClass="view-stage-badge" />
+      </HBox>
+      <FlowPane fx:id="tagsPane" hgap="7" vgap="3" />
+
+      <Separator styleClass="view-separator" />
+
+      <Label text="ALIAS" styleClass="view-field-label" />
+      <Label fx:id="aliasLabel" styleClass="view-value" wrapText="true" />
+
+      <Label text="PHONE" styleClass="view-field-label" />
+      <Label fx:id="phoneLabel" styleClass="view-value" wrapText="true" />
+
+      <Label text="EMAIL" styleClass="view-field-label" />
+      <Label fx:id="emailLabel" styleClass="view-value" wrapText="true" />
+
+      <Label text="ADDRESS" styleClass="view-field-label" />
+      <Label fx:id="addressLabel" styleClass="view-value" wrapText="true" />
+
+      <Separator styleClass="view-separator" />
+
+      <Label text="ENCOUNTER HISTORY" styleClass="view-field-label" />
+      <VBox fx:id="encounterBox" spacing="4">
+        <Label fx:id="noEncountersLabel" text="No encounters logged."
+               styleClass="view-value-dim" wrapText="true" />
+      </VBox>
+    </VBox>
+  </VBox>
+</ScrollPane>
