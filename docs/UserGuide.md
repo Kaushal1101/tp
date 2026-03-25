@@ -5,9 +5,15 @@ title: User Guide
 ## Who is this guide for?
 This guide is intended for users who prefer fast, keyboard-driven workflows. You should be comfortable with basic computer operations such as installing software and using a command terminal. No programming experience is required.
 
-## What is AB3?
-AddressBook Level 3 (AB3) is a desktop application for managing contacts. You can manage contacts efficiently using typed commands. 
+## What is CrimeWatch?
+CrimeWatch is a CLI-based contact tracking tool for managing **person-of-interest profiles** and their **encounter logs**. The MVP supports exactly these five features:
 
+1. Add Contact
+2. Delete Contact
+3. Log Encounter
+4. View Contact
+5. Search Contacts
+   
 * Table of Contents
 {:toc}
 
@@ -46,6 +52,18 @@ AddressBook Level 3 (AB3) is a desktop application for managing contacts. You ca
 
 --------------------------------------------------------------------------------------------------------------------
 
+## Notes about the command format
+
+- Words in `UPPER_CASE` are placeholders you replace with your own values.
+- Prefixes use the format `prefix/value` (e.g. `n/John Tan`).
+- Parameters can be in any order unless stated otherwise.
+- Optional parameters are shown in square brackets `[LIKE_THIS]`.
+- **Do not repeat prefixes** in the same command (e.g. `n/... n/...`) — this is treated as an error.
+- Index-based commands (`view`, `log`, `delete`) use the **INDEX shown in the current contact list panel**.
+  - INDEX must be a positive integer: `1, 2, 3, ...`
+ 
+--------------------------------------------------------------------------------------------------------------------
+
 ## Features
 
 <div markdown="block" class="alert alert-info">
@@ -78,79 +96,151 @@ Shows a message explaining how to access the help page.
 
 Format: `help`
 
+### 1) Add Contact: `add`
 
-### Adding a person: `add`
+Creates a new contact profile (suspect / person of interest).
 
-Adds a person to the address book.
+**Format**
+`add n/NAME a/ALIAS s/STAGE [r/RISK] [note/NOTES]`
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
+**Parameters**
+- `n/NAME` (compulsory): full name
+- `a/ALIAS` (compulsory): one or more aliases (**comma-separated**)
+- `s/STAGE` (compulsory): investigation stage
+- `r/RISK` (optional): risk level; default is `medium`
+- `note/NOTES` (optional): initial notes (up to 500 characters)
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A person can have any number of tags (including 0)
-</div>
+**Examples**
+- `add n/John Tan a/Ah Boy s/surveillance`
+- `add n/Michael Lee a/Big Mike s/approached r/high note/Seen at Marina Bay`
 
-Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+#### Validation rules
 
-### Listing all persons : `list`
+**NAME**
+- Length: 1–100 characters
+- Allowed characters: letters, spaces, apostrophes, hyphens
+- Leading/trailing spaces ignored; multiple internal spaces collapsed
+- Error message (invalid):  
+  `Invalid name. Name must contain only letters, spaces, apostrophes or hyphens, and cannot be empty.`
 
-Shows a list of all persons in the address book.
+**ALIAS**
+- 1–50 characters per alias
+- Allowed characters: alphanumeric and spaces
+- Multiple aliases separated by commas (e.g. `a/Ah Boy, Johnny T`)
+- Error message (invalid):  
+  `Invalid alias. Alias must be non-empty and alphanumeric.`
 
-Format: `list`
+**STAGE** (case-insensitive)
+Allowed values:
+- `surveillance`
+- `approached`
+- `cooperating`
+- `arrested`
+- `closed`
 
-### Editing a person : `edit`
+Error message (invalid):  
+`Invalid stage. Allowed values: surveillance, approached, cooperating, arrested, closed.`
 
-Edits an existing person in the address book.
+**RISK** (optional)
+Allowed values: `low`, `medium`, `high` (default: `medium`)
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
+#### Duplicate handling
+A new contact is considered a duplicate if:
+- NAME is identical (case-insensitive, trimmed), **and**
+- at least one alias overlaps.
 
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
-* At least one of the optional fields must be provided.
-* Existing values will be updated to the input values.
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person’s tags by typing `t/` without
-    specifying any tags after it.
+Error message:
+`Duplicate contact detected. A contact with similar name and alias already exists.`
 
-Examples:
-*  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+**Success output**
+`New contact added: [Name] (Stage: X, Risk: Y)`
 
-### Locating persons by name or tag: `find`
+--------------------------------------------------------------------------------------------------------------------
 
-Finds persons whose names contain any of the given keywords and/or whose tags match any of the given tags.
+### 2) Delete Contact: `delete`
 
-Format: `find [NAME_KEYWORD]... [t/TAG]...`
+Removes a contact **and all associated encounters** permanently.
 
-* The search is case-insensitive for both names and tags (e.g. `hans` will match `Hans`, `criminal` will match `CrImInAl`).
-* The order of the name keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`.
-* Name keywords search only the person's name.
-* Tag keywords search only the person's tags.
-* Only full words in names will be matched e.g. `Han` will not match `Hans`.
-* Persons matching at least one name keyword will be returned for name-only searches.
-* Persons matching at least one tag will be returned for tag-only searches.
-* If both name keywords and tags are provided, a person must match at least one name keyword and at least one tag.
+**Format**
+`delete INDEX`
 
-Examples:
-* `find John` returns `john` and `John Doe`
-* `find t/criminal` returns all persons tagged `criminal`
-* `find alex david` returns `Alex Yeoh`, `David Li`
-* `find alex t/criminal` returns persons whose names match `alex` and who are tagged `criminal`<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+**Example**
+`delete 3`
 
-### Deleting a person : `delete`
+**Validation**
+- INDEX must exist in the current list.
+- Error: `Invalid index.`
 
-Deletes the specified person from the address book.
+**Success output**
+`Deleted contact: [Name]. All associated encounters are removed.`
 
-Format: `delete INDEX`
+--------------------------------------------------------------------------------------------------------------------
 
-* Deletes the person at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
+### 3) Log Encounter: `log`
 
-Examples:
-* `list` followed by `delete 2` deletes the 2nd person in the address book.
-* `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+Records an interaction with a contact and appends it to the contact’s encounter history.
+
+**Format**
+`log INDEX d/DATE t/TIME l/LOCATION desc/DESCRIPTION [out/OUTCOME]`
+
+**Parameters**
+- `d/DATE` (compulsory): `YYYY-MM-DD`
+- `t/TIME` (compulsory): `HH:mm` (24-hour)
+- `l/LOCATION` (compulsory): location text
+- `desc/DESCRIPTION` (compulsory): what happened (1–500 chars, not blank)
+- `out/OUTCOME` (optional): result/follow-up (up to 300 chars)
+
+**Example**
+`log 1 d/2026-02-21 t/18:30 l/Maxwell Road desc/Met at coffee shop out/Agreed to cooperate`
+
+#### Validation rules
+- DATE must be a valid calendar date  
+  Error: `Invalid date. Use format YYYY-MM-DD.`
+- TIME must be valid 24-hour `HH:mm`  
+  Error: `Invalid time. Use 24-hour format HH:mm.`
+- DESCRIPTION cannot be blank; 1–500 characters
+
+**Success output**
+`Encounter logged for [Name] on 2026-02-21 18:30.`
+
+--------------------------------------------------------------------------------------------------------------------
+
+### 4) View Contact: `view`
+
+Displays the full profile of a contact and their chronological encounter history.
+
+**Format**
+`view INDEX`
+
+**Output (view panel)**
+- Name
+- Alias(es)
+- Stage
+- Risk
+- Notes
+- Encounter History (sorted by date-time ascending)
+
+--------------------------------------------------------------------------------------------------------------------
+
+### 5) Search Contacts: `find`
+
+Retrieves contacts by keyword across multiple fields.
+
+**Format**
+`find KEYWORD [MORE_KEYWORDS]`
+
+**Examples**
+- `find john`
+- `find mike marina`
+
+**Behaviour**
+- Case-insensitive
+- Partial match allowed
+- Matched fields: **Name**, **Alias**, **Notes**
+- If no matches:  
+  `No contacts found matching the given keywords.`
+
+--------------------------------------------------------------------------------------------------------------------
 
 ### Clearing all entries : `clear`
 
@@ -197,14 +287,12 @@ _Details coming soon ..._
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Command summary
+## Command summary (MVP)
 
-Action | Format, Examples
---------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-**Clear** | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find** | `find [NAME_KEYWORD]... [t/TAG]...`<br> e.g., `find James t/criminal`
-**List** | `list`
-**Help** | `help`
+Action | Format | Example
+---|---|---
+Add Contact | `add n/NAME a/ALIAS s/STAGE [r/RISK] [note/NOTES]` | `add n/John Tan a/Ah Boy s/surveillance`
+Delete Contact | `delete INDEX` | `delete 3`
+Log Encounter | `log INDEX d/DATE t/TIME l/LOCATION desc/DESCRIPTION [out/OUTCOME]` | `log 1 d/2026-02-21 t/18:30 l/Maxwell Road desc/Met...`
+View Contact | `view INDEX` | `view 1`
+Search Contacts | `find KEYWORD [MORE_KEYWORDS]` | `find mike marina`
