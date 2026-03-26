@@ -88,7 +88,7 @@ public class AddressBookParser {
 
         case RemindCommand.COMMAND_WORD:
             return new RemindCommandParser().parse(arguments);
-            
+
         case ExportCommand.COMMAND_WORD:
             return new ExportCommandParser().parse(arguments);
 

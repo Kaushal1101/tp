@@ -32,7 +32,7 @@ CrimeWatch is a CLI-based contact tracking tool for managing **person-of-interes
 | Export encounters (CSV) | `export l/LOCATION` |
 | Sort Contacts | `sort CRITERION` |
 
-   
+
 * Table of Contents
 {:toc}
 
@@ -81,7 +81,7 @@ CrimeWatch is a CLI-based contact tracking tool for managing **person-of-interes
 - Index-based commands (`view`, `log`, `delete`, `edit`) use the **INDEX shown in the current contact list panel**.
   - INDEX must be a positive integer: `1, 2, 3, ...`
 - For `editencounter`, use two indices: `PERSON_INDEX` from contact list and `ENCOUNTER_INDEX` from the viewed encounter cards.
- 
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Features
@@ -140,14 +140,14 @@ Creates a new contact profile (suspect / person of interest).
 - Length: 1–100 characters
 - Allowed characters: letters, spaces, apostrophes, hyphens
 - Leading/trailing spaces ignored; multiple internal spaces collapsed
-- Error message (invalid):  
+- Error message (invalid):
   `Invalid name. Name must contain only letters, spaces, apostrophes or hyphens, and cannot be empty.`
 
 **ALIAS**
 - 1–50 characters per alias
 - Allowed characters: alphanumeric and spaces
 - Multiple aliases separated by commas (e.g. `a/Ah Boy, Johnny T`)
-- Error message (invalid):  
+- Error message (invalid):
   `Invalid alias. Alias must be non-empty and alphanumeric.`
 
 **STAGE** (case-insensitive)
@@ -158,7 +158,7 @@ Allowed values:
 - `arrested`
 - `closed`
 
-Error message (invalid):  
+Error message (invalid):
 `Invalid stage. Allowed values: surveillance, approached, cooperating, arrested, closed.`
 
 **RISK** (optional)
@@ -240,9 +240,9 @@ Records an interaction with a contact and appends it to the contact’s encounte
 `log 1 d/2026-02-21 t/18:30 l/Maxwell Road desc/Met at coffee shop out/Agreed to cooperate`
 
 #### Validation rules
-- DATE must be a valid calendar date  
+- DATE must be a valid calendar date
   Error: `Invalid date. Use format YYYY-MM-DD.`
-- TIME must be valid 24-hour `HH:mm`  
+- TIME must be valid 24-hour `HH:mm`
   Error: `Invalid time. Use 24-hour format HH:mm.`
 - DESCRIPTION cannot be blank; 1–500 characters
 
@@ -314,7 +314,7 @@ Retrieves contacts by keyword across multiple fields.
 - Case-insensitive
 - Partial match allowed
 - Matched fields: **Name**, **Alias**, **Notes**
-- If no matches:  
+- If no matches:
   `No contacts found matching the given keywords.`
 
 --------------------------------------------------------------------------------------------------------------------
