@@ -18,6 +18,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Notes;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Reminder;
 import seedu.address.model.person.Risk;
 import seedu.address.model.person.Stage;
 import seedu.address.model.tag.Tag;
@@ -39,6 +40,7 @@ class JsonAdaptedPerson {
     private final String risk;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
     private final List<JsonAdaptedEncounter> encounters = new ArrayList<>();
+    private final List<JsonAdaptedReminder> reminders = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
@@ -53,7 +55,8 @@ class JsonAdaptedPerson {
             @JsonProperty("notes") String notes,
             @JsonProperty("risk") String risk,
             @JsonProperty("tags") List<JsonAdaptedTag> tags,
-            @JsonProperty("encounters") List<JsonAdaptedEncounter> encounters) {
+            @JsonProperty("encounters") List<JsonAdaptedEncounter> encounters,
+            @JsonProperty("reminders") List<JsonAdaptedReminder> reminders) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -69,6 +72,9 @@ class JsonAdaptedPerson {
         }
         if (encounters != null) {
             this.encounters.addAll(encounters);
+        }
+        if (reminders != null) {
+            this.reminders.addAll(reminders);
         }
     }
 
@@ -91,6 +97,9 @@ class JsonAdaptedPerson {
                 .collect(Collectors.toList()));
         encounters.addAll(source.getEncounters().stream()
                 .map(JsonAdaptedEncounter::new)
+                .collect(Collectors.toList()));
+        reminders.addAll(source.getReminders().stream()
+                .map(JsonAdaptedReminder::new)
                 .collect(Collectors.toList()));
     }
 
@@ -119,6 +128,13 @@ class JsonAdaptedPerson {
         if (encounters != null) {
             for (JsonAdaptedEncounter encounter : encounters) {
                 personEncounters.add(encounter.toModelType());
+            }
+        }
+
+        final List<Reminder> personReminders = new ArrayList<>();
+        if (reminders != null) {
+            for (JsonAdaptedReminder reminder : reminders) {
+                personReminders.add(reminder.toModelType());
             }
         }
 
@@ -188,7 +204,7 @@ class JsonAdaptedPerson {
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
         return new Person(modelName, modelPhone, modelEmail, modelAddress, modelStage,
-                personAliases, modelNotes, modelRisk, modelTags, personEncounters);
+                personAliases, modelNotes, modelRisk, modelTags, personEncounters, personReminders);
     }
 
 }

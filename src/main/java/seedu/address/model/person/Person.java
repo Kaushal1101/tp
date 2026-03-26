@@ -31,13 +31,15 @@ public class Person {
     private final Risk risk;
     private final Set<Tag> tags = new HashSet<>();
     private final List<Encounter> encounters = new ArrayList<>();
+    private final List<Reminder> reminders = new ArrayList<>();
 
     /**
      * Full constructor - every field must be present and not null.
      */
     public Person(Name name, Phone phone, Email email, Address address, Stage stage,
-                  List<Alias> aliases, Notes notes, Risk risk, Set<Tag> tags, List<Encounter> encounters) {
-        requireAllNonNull(name, phone, email, address, stage, aliases, notes, risk, tags, encounters);
+                  List<Alias> aliases, Notes notes, Risk risk, Set<Tag> tags,
+                  List<Encounter> encounters, List<Reminder> reminders) {
+        requireAllNonNull(name, phone, email, address, stage, aliases, notes, risk, tags, encounters, reminders);
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -48,6 +50,7 @@ public class Person {
         this.risk = risk;
         this.tags.addAll(tags);
         this.encounters.addAll(encounters);
+        this.reminders.addAll(reminders);
     }
 
     /**
@@ -55,7 +58,16 @@ public class Person {
      */
     public Person(Name name, Phone phone, Email email, Address address, Stage stage,
                   List<Alias> aliases, Notes notes, Risk risk, Set<Tag> tags) {
-        this(name, phone, email, address, stage, aliases, notes, risk, tags, Collections.emptyList());
+        this(name, phone, email, address, stage, aliases, notes, risk, tags,
+                Collections.emptyList(), Collections.emptyList());
+    }
+
+    /**
+     * Convenience constructor without reminders.
+     */
+    public Person(Name name, Phone phone, Email email, Address address, Stage stage,
+                  List<Alias> aliases, Notes notes, Risk risk, Set<Tag> tags, List<Encounter> encounters) {
+        this(name, phone, email, address, stage, aliases, notes, risk, tags, encounters, Collections.emptyList());
     }
 
     /**
@@ -63,7 +75,7 @@ public class Person {
      */
     public Person(Name name, Phone phone, Email email, Address address, Stage stage, Set<Tag> tags) {
         this(name, phone, email, address, stage, List.of(), new Notes(""), Risk.getDefault(), tags,
-                Collections.emptyList());
+                Collections.emptyList(), Collections.emptyList());
     }
 
     public Name getName() {
@@ -125,6 +137,14 @@ public class Person {
     }
 
     /**
+     * Returns an immutable reminder list, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public List<Reminder> getReminders() {
+        return Collections.unmodifiableList(reminders);
+    }
+
+    /**
      * Returns true if both persons have the same name.
      * This defines a weaker notion of equality between two persons.
      */
@@ -162,12 +182,13 @@ public class Person {
                 && notes.equals(otherPerson.notes)
                 && risk.equals(otherPerson.risk)
                 && tags.equals(otherPerson.tags)
-                && encounters.equals(otherPerson.encounters);
+                && encounters.equals(otherPerson.encounters)
+                && reminders.equals(otherPerson.reminders);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, phone, email, address, stage, aliases, notes, risk, tags, encounters);
+        return Objects.hash(name, phone, email, address, stage, aliases, notes, risk, tags, encounters, reminders);
     }
 
     @Override
@@ -183,6 +204,7 @@ public class Person {
                 .add("risk", risk)
                 .add("tags", tags)
                 .add("encounters", encounters)
+                .add("reminders", reminders)
                 .toString();
     }
 
