@@ -307,35 +307,7 @@ Updates an existing encounter for a contact.
 
 --------------------------------------------------------------------------------------------------------------------
 
-### 6) View Contact: `view`
-
-Displays the full profile of a contact and their chronological encounter history.
-
-**Format**
-`view INDEX [pw/PASSWORD]`
-
-**Password behavior**
-- Without password: contact is viewable normally.
-- With password: `view` requires the correct `pw/PASSWORD` to display full details.
-- `view INDEX` on a protected contact fails with password-required error.
-- Passwords are stored in plain text (not production-ready).
-
-**Expected output**
-- For unprotected contacts: details are shown immediately.
-- For protected contacts with correct password: full details and encounter history are shown.
-- For protected contacts without/with wrong password: command fails with a password-related error.
-
-**Output (view panel)**
-- Name
-- Alias(es)
-- Stage
-- Risk
-- Notes
-- Encounter History (sorted by date-time ascending)
-
---------------------------------------------------------------------------------------------------------------------
-
-### 7) Set Reminder: `remind`
+### 6) Set Reminder: `remind`
 
 Adds a reminder entry to a contact.
 
@@ -364,6 +336,34 @@ Adds a reminder entry to a contact.
 
 --------------------------------------------------------------------------------------------------------------------
 
+### 7) View Contact: `view`
+
+Displays the full profile of a contact and their chronological encounter history.
+
+**Format**
+`view INDEX [pw/PASSWORD]`
+
+**Password behavior**
+- Without password: contact is viewable normally.
+- With password: `view` requires the correct `pw/PASSWORD` to display full details.
+- `view INDEX` on a protected contact fails with password-required error.
+- Passwords are stored in plain text (not production-ready).
+
+**Expected output**
+- For unprotected contacts: details are shown immediately.
+- For protected contacts with correct password: full details and encounter history are shown.
+- For protected contacts without/with wrong password: command fails with a password-related error.
+
+**Output (view panel)**
+- Name
+- Alias(es)
+- Stage
+- Risk
+- Notes
+- Encounter History (sorted by date-time ascending)
+
+--------------------------------------------------------------------------------------------------------------------
+
 ### 8) Search Contacts: `find`
 
 Retrieves contacts by keyword across multiple fields.
@@ -384,34 +384,7 @@ Retrieves contacts by keyword across multiple fields.
 
 --------------------------------------------------------------------------------------------------------------------
 
-### 9) Export encounters to CSV: `export`
-
-Exports all encounters whose **location** matches the value you give, to a UTF-8 CSV file. Rows are sorted by encounter date-time (earliest first).
-
-**Format**
-`export l/LOCATION`
-
-**Parameters**
-- `l/LOCATION` (compulsory): must match encounter locations the same way as stored (see **Behavior**).
-
-**Example**
-`export l/Harbor District`
-
-#### Behavior
-- Matching is **case-insensitive**. Leading and trailing spaces on your input and on each stored encounter location are ignored; the trimmed strings must be equal.
-- The file is written under the app home directory to `exports/CrimeWatch-export-<timestamp>.csv`, where `<timestamp>` is in `yyyyMMdd-HHmmss` form (local time when the command runs).
-- CSV columns (header row): `encounterTimestamp`, `encounterDescription`, `encounterOutcome`, `contactName`, `contactTags`. Tags for a contact are comma-separated and sorted alphabetically. Fields are quoted and follow standard CSV escaping for double quotes.
-
-#### Outcomes
-- **Success:** `Exported N matching encounters to exports/CrimeWatch-export-<timestamp>.csv.` (with the actual path shown).
-- **No matching encounters:** the command fails with `No encounters found at location <your location>.` — **no file** is created.
-- **Invalid format** (e.g. missing `l/`, wrong shape): invalid command format message referencing `export` usage.
-- **Blank location** (after trim): `Encounter location can take any value, and should not be blank`
-- **Write error** (e.g. cannot create `exports/`): `Failed to export to <path>: <reason>`
-
---------------------------------------------------------------------------------------------------------------------
-
-### 10) Sort Contacts: `sort`
+### 9) Sort Contacts: `sort`
 
 Sorts the currently displayed contact list by a chosen criterion.
 
@@ -440,6 +413,33 @@ Sorts the currently displayed contact list by a chosen criterion.
 - `sort status`: sorts by stage/status alphabetically.
 - `sort recent`: sorts by most recently encountered first.
 - Ties are resolved by contact name in alphabetical order.
+
+--------------------------------------------------------------------------------------------------------------------
+
+### 10) Export encounters to CSV: `export`
+
+Exports all encounters whose **location** matches the value you give, to a UTF-8 CSV file. Rows are sorted by encounter date-time (earliest first).
+
+**Format**
+`export l/LOCATION`
+
+**Parameters**
+- `l/LOCATION` (compulsory): must match encounter locations the same way as stored (see **Behavior**).
+
+**Example**
+`export l/Harbor District`
+
+#### Behavior
+- Matching is **case-insensitive**. Leading and trailing spaces on your input and on each stored encounter location are ignored; the trimmed strings must be equal.
+- The file is written under the app home directory to `exports/CrimeWatch-export-<timestamp>.csv`, where `<timestamp>` is in `yyyyMMdd-HHmmss` form (local time when the command runs).
+- CSV columns (header row): `encounterTimestamp`, `encounterDescription`, `encounterOutcome`, `contactName`, `contactTags`. Tags for a contact are comma-separated and sorted alphabetically. Fields are quoted and follow standard CSV escaping for double quotes.
+
+#### Outcomes
+- **Success:** `Exported N matching encounters to exports/CrimeWatch-export-<timestamp>.csv.` (with the actual path shown).
+- **No matching encounters:** the command fails with `No encounters found at location <your location>.` — **no file** is created.
+- **Invalid format** (e.g. missing `l/`, wrong shape): invalid command format message referencing `export` usage.
+- **Blank location** (after trim): `Encounter location can take any value, and should not be blank`
+- **Write error** (e.g. cannot create `exports/`): `Failed to export to <path>: <reason>`
 
 --------------------------------------------------------------------------------------------------------------------
 
