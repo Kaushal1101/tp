@@ -46,7 +46,7 @@ CrimeWatch supports 11 core features: **Add**, **Edit**, and **Delete** contacts
 
 | Feature | Command format | Go to |
 | --- | --- | --- |
-| Add Contact | `add n/NAME a/ALIAS s/STAGE [r/RISK] [note/NOTES] [pw/PASSWORD]` | [1) Add Contact](#1-add-contact-add) |
+| Add Contact | `add n/NAME p/PHONE e/EMAIL a/ADDRESS s/STAGE [al/ALIAS(,ALIAS...)] [note/NOTES] [r/RISK] [pw/PASSWORD] [t/TAG]...` | [1) Add Contact](#1-add-contact-add) |
 | Edit Contact | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [s/STAGE] [al/ALIAS(,ALIAS...)] [note/NOTES] [r/RISK] [pw/PASSWORD] [t/TAG]...` | [2) Edit Contact](#2-edit-contact-edit) |
 | Delete Contact | `delete INDEX` | [3) Delete Contact](#3-delete-contact-delete) |
 | Log Encounter | `log INDEX d/DATE t/TIME l/LOCATION desc/DESCRIPTION [out/OUTCOME]` | [4) Log Encounter](#4-log-encounter-log) |
@@ -92,7 +92,7 @@ CrimeWatch supports 11 core features: **Add**, **Edit**, and **Delete** contacts
 6. Try this 60-second typed-command tutorial:
    - `help` to open this user guide.
    - `list` to show all contacts.
-   - `add n/John Doe a/JD s/surveillance r/high note/Observed near station` to add a suspect profile.
+   - `add n/John Doe p/98765432 e/john@example.com a/Maxwell Road s/surveillance al/JD r/high note/Observed near station` to add a suspect profile.
    - `view 1` to inspect the first contact.
    - `log 1 d/2026-03-31 t/21:15 l/Maxwell Road desc/Short conversation out/Agreed to follow up` to log an encounter.
 
@@ -148,30 +148,34 @@ Format: `help`
 
 ### 1) Add Contact: `add`
 
-Creates a new suspect profile with aliases, investigation stage, and risk level.
+Creates a new suspect profile.
 
 **Format**
-`add n/NAME al/ALIAS s/STAGE [r/RISK] [note/NOTES] [pw/PASSWORD]`
+`add n/NAME p/PHONE e/EMAIL a/ADDRESS s/STAGE [al/ALIAS(,ALIAS...)] [note/NOTES] [r/RISK] [pw/PASSWORD] [t/TAG]...`
 
 **Parameters**
 - `n/NAME` (required): suspect's full name (alphanumeric + spaces, not blank)
-- `al/ALIAS` (required): one or more aliases, **comma-separated** (e.g. `a/Ah Boy, Johnny T`)
-- `s/STAGE` (required): investigation stage
-- `r/RISK` (optional): risk level—one of `low`, `medium`, `high` (default: `medium`)
-- `note/NOTES` (optional): initial notes (up to 500 characters, no newlines)
-- `pw/PASSWORD` (optional): per-contact password used to restrict viewing full contact details
+- `p/PHONE` (required): phone number (digits only, at least 3 digits)
+- `e/EMAIL` (required): valid email address
+- `a/ADDRESS` (required): address (not blank)
+- `s/STAGE` (required): one of `surveillance`, `approached`, `cooperating`, `arrested`, `closed`
+- `al/ALIAS(,ALIAS...)` (optional): alias list, comma-separated
+- `note/NOTES` (optional): notes up to 500 characters, no newlines
+- `r/RISK` (optional): one of `low`, `medium`, `high` (default: `medium`)
+- `pw/PASSWORD` (optional): contact-level password for `view`
+- `t/TAG` (optional, repeatable): tags
 
 **Examples**
-- `add n/John Tan a/Ah Boy s/surveillance`
-- `add n/Michael Lee a/Big Mike s/approached r/high note/Seen at Marina Bay`
-- `add n/John Doe a/JD s/surveillance pw/password123`
+- `add n/John Tan p/98765432 e/johntan@example.com a/311, Clementi Ave 2, #02-25 s/surveillance`
+- `add n/Michael Lee p/91234567 e/mlee@example.com a/Marina Bay s/approached al/Big Mike, MLee note/Seen at Marina Bay r/high t/priority`
+- `add n/John Doe p/87654321 e/john@example.com a/Maxwell Road s/surveillance pw/password123`
 
 **Validation**
-- Names must be unique
 - All required fields must be present
+- Repeating single-value prefixes in the same command is not allowed
 
 **Success output**
-`New contact added: [Name] (Stage: X, Risk: Y)`
+`New person added: [person details]`
 
 --------------------------------------------------------------------------------------------------------------------
 
