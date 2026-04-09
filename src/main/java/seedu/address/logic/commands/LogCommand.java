@@ -79,7 +79,8 @@ public class LogCommand extends Command {
         return new CommandResult(
                 String.format(MESSAGE_SUCCESS,
                         personToLog.getName(),
-                        encounter.getFormattedDateTime()));
+                        encounter.getFormattedDateTime()),
+                updatedPerson);
     }
 
     /**
