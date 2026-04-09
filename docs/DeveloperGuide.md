@@ -91,6 +91,12 @@ Here's a (partial) class diagram of the `Logic` component:
 
 <img src="images/LogicClassDiagram.png" width="550"/>
 
+The diagram above treats concrete command types as `XYZCommand` to keep the high-level view compact.
+The following class diagram zooms into that placeholder and shows the concrete command hierarchy, together
+with key command-specific collaborators and multiplicities:
+
+<img src="images/CommandFeatureClassDiagram.png" width="900"/>
+
 The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("delete 1")` API call as an example.
 
 ![Interactions Inside the Logic Component for the `delete 1` Command](images/DeleteSequenceDiagram.png)
