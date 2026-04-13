@@ -87,7 +87,7 @@ CrimeWatch supports 11 core features: **Add**, **Edit**, and **Delete** contacts
    ![Opening the .jar file](images/ug-terminal-command.png)
 
 6. Confirm the app opens and sample data is visible.
-   ![Ui](images/Ui.png)
+   ![Ui](images/Ui-new.png)
 
 7. Try this 60-second typed-command tutorial:
    - `help` to open this user guide.
@@ -455,7 +455,7 @@ CrimeWatch data are saved in the hard disk automatically after any command that 
 
 ### Editing the data file
 
-CrimeWatch data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+CrimeWatch data are saved automatically as a JSON file `[JAR file location]/data/crimewatch.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
 If your changes to the data file make its format invalid, CrimeWatch will discard all data and start with an empty data file at the next run. Hence, it is recommended to back up the file before editing it.<br>
@@ -471,7 +471,7 @@ _Details coming soon ..._
 ## FAQ
 
 **Q: How do I transfer my data to another computer?**<br>
-**A**: Install the app on the other computer and overwrite the empty data file it creates with the `addressbook.json` file from your previous CrimeWatch home folder.
+**A**: Install the app on the other computer and overwrite the empty data file it creates with the `crimewatch.json` file from your previous CrimeWatch home folder.
 
 **Q: Can I edit suspect records after adding them?**<br>
 **A**: Yes, use the `edit` command to update any field—name, aliases, stage, risk level, or notes. Existing encounters are preserved.
@@ -494,8 +494,8 @@ _Details coming soon ..._
 **Q: My command is giving an error even though it looks correct. What should I check?**<br>
 **A**: 1) Ensure you're not repeating prefixes (e.g., `n/... n/...` is invalid). 2) Check date/time formats are exactly `YYYY-MM-DD` and `HH:mm`. 3) Verify the index exists in the current contact list. 4) If copying from a PDF, manually retype the command to avoid hidden space issues.
 
-**Q: What if `addressbook.json` is corrupted or cannot be read?**<br>
-**A**: CrimeWatch shows an error when the app opens. Only the `exit` command is accepted until you repair or replace the file; other commands are blocked and your data file is not overwritten. Use `exit`, fix `addressbook.json` (e.g. from a backup), then restart.
+**Q: What if `crimewatch.json` is corrupted or cannot be read?**<br>
+**A**: CrimeWatch shows an error when the app opens. Only the `exit` command is accepted until you repair or replace the file; other commands are blocked and your data file is not overwritten. Use `exit`, fix `crimewatch.json` (e.g. from a backup), then restart.
 
 --------------------------------------------------------------------------------------------------------------------
 
