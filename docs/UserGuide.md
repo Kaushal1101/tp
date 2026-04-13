@@ -347,12 +347,19 @@ Displays the full profile of a contact and their encounter cards.
 - For protected contacts without/with wrong password: command fails with a password-related error.
 
 **Output (view panel)**
-- Name
-- Alias(es)
-- Stage
-- Risk
-- Notes
-- Encounter History (`#1` is the most recently logged encounter)
+
+The view panel displays the following fields in order:
+- **Name** — shown as a large heading at the top
+- **Stage** — displayed as a coloured badge (e.g. `surveillance`)
+- **Risk** — displayed as a coloured badge next to Stage (e.g. `MEDIUM RISK`)
+- **Phone**
+- **Email**
+- **Address**
+- **Aliases** — shows `None` if no aliases are set
+- **Notes** — shows `None` if no notes are set
+- **Tags** — each tag shown as a coloured badge; section omitted if no tags
+- **Upcoming Reminders** — shows `No reminders set.` if none exist
+- **Encounter History** — shows `No encounters logged.` if none exist; otherwise `#1` is the most recently logged encounter
 
 --------------------------------------------------------------------------------------------------------------------
 
