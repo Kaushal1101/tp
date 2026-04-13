@@ -44,6 +44,7 @@ public class RemindCommand extends Command {
             + PREFIX_PASSWORD + "hunter2";
 
     public static final String MESSAGE_SUCCESS = "Reminder set for %1$s on %2$s %3$s.";
+    public static final String MESSAGE_DUPLICATE_REMINDER = "This reminder already exists for this contact.";
     public static final String MESSAGE_PASSWORD_REQUIRED_FOR_REMIND =
             "This contact is password-protected. Include " + PREFIX_PASSWORD + "CURRENT_PASSWORD in your remind.";
     public static final String MESSAGE_UNEXPECTED_PASSWORD_FOR_REMIND =
